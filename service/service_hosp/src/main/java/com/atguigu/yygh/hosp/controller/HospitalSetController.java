@@ -44,7 +44,7 @@ public class HospitalSetController {
     @DeleteMapping("{id}")
     public Result removeHospSet(@PathVariable Long id) {
         boolean flag = hospitalSetService.removeById(id);
-        if(flag) {
+        if (flag) {
             return Result.ok();
         } else {
             return Result.fail();
@@ -58,16 +58,16 @@ public class HospitalSetController {
                                   @RequestBody
                                           (required = false) HospitalSetQueryVo hospitalSetQueryVo) {
         //创建page对象，传递当前页，每页记录数
-        Page<HospitalSet> page = new Page<>(current,limit);
+        Page<HospitalSet> page = new Page<>(current, limit);
         //构建条件
         QueryWrapper<HospitalSet> wrapper = new QueryWrapper<>();
         String hosname = hospitalSetQueryVo.getHosname();//医院名称
         String hoscode = hospitalSetQueryVo.getHoscode();//医院编号
-        if(!StringUtils.isEmpty(hosname)) {
-            wrapper.like("hosname",hospitalSetQueryVo.getHosname());
+        if (!StringUtils.isEmpty(hosname)) {
+            wrapper.like("hosname", hospitalSetQueryVo.getHosname());
         }
-        if(!StringUtils.isEmpty(hoscode)) {
-            wrapper.eq("hoscode",hospitalSetQueryVo.getHoscode());
+        if (!StringUtils.isEmpty(hoscode)) {
+            wrapper.eq("hoscode", hospitalSetQueryVo.getHoscode());
         }
         //调用方法实现分页查询
         Page<HospitalSet> pageHospitalSet = hospitalSetService.page(page, wrapper);
@@ -82,10 +82,10 @@ public class HospitalSetController {
         hospitalSet.setStatus(1);
         //签名秘钥
         Random random = new Random();
-        hospitalSet.setSignKey(MD5.encrypt(System.currentTimeMillis()+""+random.nextInt(1000)));
+        hospitalSet.setSignKey(MD5.encrypt(System.currentTimeMillis() + "" + random.nextInt(1000)));
         //调用service
         boolean save = hospitalSetService.save(hospitalSet);
-        if(save) {
+        if (save) {
             return Result.ok();
         } else {
             return Result.fail();
@@ -103,7 +103,7 @@ public class HospitalSetController {
     @PostMapping("updateHospitalSet")
     public Result updateHospitalSet(@RequestBody HospitalSet hospitalSet) {
         boolean flag = hospitalSetService.updateById(hospitalSet);
-        if(flag) {
+        if (flag) {
             return Result.ok();
         } else {
             return Result.fail();
@@ -116,4 +116,28 @@ public class HospitalSetController {
         hospitalSetService.removeByIds(idList);
         return Result.ok();
     }
+
+    //8 医院设置锁定和解锁
+    @PutMapping("lockHospitalSet/{id}/{status}")
+    public Result lockHospitalSet(@PathVariable Long id,
+                                  @PathVariable Integer status) {
+        //根据id查询医院设置信息
+        HospitalSet hospitalSet = hospitalSetService.getById(id);
+        //设置状态
+        hospitalSet.setStatus(status);
+        //调用方法
+        hospitalSetService.updateById(hospitalSet);
+        return Result.ok();
+    }
+
+    //9 发送签名秘钥
+    @PutMapping("sendKey/{id}")
+    public Result lockHospitalSet(@PathVariable Long id) {
+        HospitalSet hospitalSet = hospitalSetService.getById(id);
+        String signKey = hospitalSet.getSignKey();
+        String hoscode = hospitalSet.getHoscode();
+        //TODO 发送短信后续完善 通过短信的形式发送医院编号与签名key给联系
+        return Result.ok();
+    }
+
 }
