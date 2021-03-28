@@ -26,7 +26,13 @@ export default {
       method: 'delete',
       data: idList
     })
-  }
+  },
 
-
+  //锁定和取消锁定
+  lockHospSet(id, status) {
+      return request({
+        url: `/admin/hosp/hospitalSet/lockHospitalSet/${id}/${status}`,
+        method: 'put'
+      })
+    }
 }
