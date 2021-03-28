@@ -10,6 +10,13 @@ export default {
       //param:  //param  不使用json传输
       data: searchObj  //data 使用json传输
     })
+  },
+
+  deleteHospSet(id){
+    return request({
+      url:`admin/hosp/hospitalSet/${id}`,
+      method:'delete',
+    })
   }
 
 
