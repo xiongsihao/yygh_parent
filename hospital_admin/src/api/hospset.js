@@ -30,9 +30,18 @@ export default {
 
   //锁定和取消锁定
   lockHospSet(id, status) {
-      return request({
-        url: `/admin/hosp/hospitalSet/lockHospitalSet/${id}/${status}`,
-        method: 'put'
-      })
-    }
+    return request({
+      url: `/admin/hosp/hospitalSet/lockHospitalSet/${id}/${status}`,
+      method: 'put'
+    })
+  },
+
+  //添加医院设置
+  saveHospSet(hospitalSet) {
+    return request({
+      url: `/admin/hosp/hospitalSet/saveHospitalSet`,
+      method: 'post',
+      data: hospitalSet
+    })
+  }
 }
