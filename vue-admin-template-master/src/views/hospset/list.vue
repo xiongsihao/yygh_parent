@@ -15,12 +15,18 @@
          type="primary"  icon="el-icon-search"  @click="getList()">查询
       </el-button>
     </el-form>
+
+    <!-- 工具条 -->
+    <div>
+      <el-button type="danger"  size="mini"  @click="removeRows()">批量删除</el-button>
+    </div>
     <!-- table数据列表 -->
+
     <el-table
       :data="list"
       stripe
-      style="width: 100%">
-
+      style="width: 100%" @selection-change="handleSelectionChange">
+      <el-table-column type="selection"  width="55"/>
       <el-table-column type="index" width="50" label="序号"/>
       <el-table-column prop="hosname" label="医院名称"/>
       <el-table-column prop="hoscode" label="医院编号"/>
@@ -46,7 +52,7 @@
 
     <!-- 分页 -->
     <el-pagination
-        :current-page="page"
+        :current-page="current"
         :page-size="limit"
         :total="total"
         style="padding: 30px 0; text-align: center;"
@@ -64,11 +70,12 @@
     //定义变量和初始值
     data() {
       return {
-        current: 1, //当前页easy-mock
+        current: 1, //当前页
         limit: 3, //每页显示条数
         searchObj: {},//条件封装对象
         list: [], //每页数据集合
-        total: 0 //总记录数
+        total: 0, //总记录数
+        multipleSelection: [] // 批量选择中选择的记录列表
       }
     },
 
@@ -113,7 +120,39 @@
               this.getList(1)
             })
         })
-      }
+      },
+
+      //批量删除
+      removeRows() {
+        this.$confirm('此操作将永久删除医院是设置信息, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => { //确定执行then方法
+          var idList = []
+          //遍历数组得到每个id值，设置到idList里面
+          for (var i = 0; i < this.multipleSelection.length; i++) {
+            var obj = this.multipleSelection[i]
+            var id = obj.id
+            idList.push(id)
+          }
+          //调用接口
+          hospset.batchHospSet(idList)
+            .then(response => {
+              //提示
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              })
+              //刷新页面
+              this.getList(1)
+            })
+        })
+      },
+      // 当表格复选框选项发生变化的时候触发
+      handleSelectionChange(selection) {
+        this.multipleSelection = selection
+      },
     }
   }
 
