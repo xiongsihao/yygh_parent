@@ -1,6 +1,10 @@
 <template>
   <div class="app-container">
-
+    <div class="el-toolbar">
+      <div class="el-toolbar-body" style="justify-content: flex-start;">
+        <el-button type="text" @click="exportData"><i class="fa fa-plus"/> 导出</el-button>
+      </div>
+    </div>
     <el-table
       :data="list"
       style="width: 100%"
@@ -62,6 +66,9 @@
         dict.dictList(tree.id).then(response => {
           resolve(response.data)
         })
+      },
+      exportData() {
+        window.location.href = 'http://localhost:8202/admin/cmn/dict/exportData'
       }
     }
   }

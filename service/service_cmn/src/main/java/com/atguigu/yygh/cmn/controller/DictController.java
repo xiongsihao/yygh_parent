@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -31,5 +32,11 @@ public class DictController {
     public Result findChildData(@PathVariable Long id) {
         List<Dict> list = dictService.findChlidData(id);
         return Result.ok(list);
+    }
+
+    @ApiOperation(value="导出")
+    @GetMapping(value = "/exportData")
+    public void exportData(HttpServletResponse response) {
+        dictService.exportData(response);
     }
 }
