@@ -100,4 +100,13 @@ public class HospitalServiceImpl implements HospitalService {
         return hospital;
     }
 
+    @Override
+    public void updateStatus(String id, Integer status) {
+        if(status.intValue() == 0 || status.intValue() == 1) {
+            Hospital hospital = hospitalRepository.findById(id).get();
+            hospital.setStatus(status);
+            hospital.setUpdateTime(new Date());
+            hospitalRepository.save(hospital);
+        }
+    }
 }
