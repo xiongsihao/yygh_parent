@@ -8,6 +8,7 @@ import com.atguigu.yygh.model.cmn.Dict;
 import com.atguigu.yygh.vo.cmn.DictEeVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -28,9 +29,10 @@ import java.util.List;
  */
 @Service
 public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements DictService {
+
     //根据数据id查询子数据列表
     @Override
-    @Cacheable(value="dict",keyGenerator = "keyGenerator") //将查询数据放入缓存中
+    @Cacheable(value = "dict", keyGenerator = "keyGenerator") //将查询数据放入缓存中
     public List<Dict> findChlidData(Long id) {
         QueryWrapper<Dict> wrapper = new QueryWrapper<>();
         wrapper.eq("parent_id", id);
@@ -83,15 +85,44 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     /**
      * 导入数据字典
      * allEntries = true: 开启后方法调用后清空所有缓存
+     *
      * @param file
      */
     @Override
-    @CacheEvict(value = "dict", allEntries=true)
+    @CacheEvict(value = "dict", allEntries = true)
     public void importDictData(MultipartFile file) {
         try {
-            EasyExcel.read(file.getInputStream(),DictEeVo.class,new DictListener(baseMapper)).sheet().doRead();
+            EasyExcel.read(file.getInputStream(), DictEeVo.class, new DictListener(baseMapper)).sheet().doRead();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Cacheable(value = "dict", keyGenerator = "keyGenerator")
+    @Override
+    public String getNameByParentDictCodeAndValue(String parentDictCode, String value) {
+    //如果value能唯一定位数据字典，parentDictCode可以传空，例如：省市区的value值能够唯一确定
+
+        if (StringUtils.isEmpty(parentDictCode)) {
+            Dict dict = baseMapper.selectOne(new QueryWrapper<Dict>().eq("value", value));
+            if (null != dict) {
+                return dict.getName();
+            }
+        } else {
+            Dict parentDict = this.getByDictsCode(parentDictCode);
+            if (null == parentDict) return "";
+            Dict dict = baseMapper.selectOne(new QueryWrapper<Dict>().eq("parent_id", parentDict.getId()).eq("value", value));
+            if (null != dict) {
+                return dict.getName();
+            }
+        }
+        return "";
+    }
+
+    private Dict getByDictsCode(String dictCode) {
+        QueryWrapper<Dict> wrapper=new QueryWrapper<>();
+        wrapper.eq("dict_code",dictCode);
+        Dict dict = baseMapper.selectOne(wrapper);
+        return dict;
     }
 }
