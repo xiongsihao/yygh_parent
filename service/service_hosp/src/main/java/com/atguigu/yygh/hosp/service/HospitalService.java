@@ -35,4 +35,11 @@ public interface HospitalService {
      * 更新上线状态
      */
     void updateStatus(String id, Integer status);
+
+    /**
+     * 医院详情
+     * @param id
+     * @return
+     */
+    Map<String, Object> show(String id);
 }

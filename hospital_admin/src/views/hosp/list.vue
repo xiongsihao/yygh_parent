@@ -68,8 +68,12 @@
 
     <el-table-column  label="操作"  width="230"  align="center">
             <template  slot-scope="scope">
+                    <router-link :to="'/hospSet/hospital/show/'+scope.row.id">
+                      <el-button type="primary" size="mini">查看</el-button>
+                    </router-link>
                     <el-button  v-if="scope.row.status  ==  1"    type="primary"  size="mini"  @click="updateStatus(scope.row.id,  0)">下线</el-button>
                     <el-button  v-if="scope.row.status  ==  0"    type="danger"  size="mini"  @click="updateStatus(scope.row.id,  1)">上线</el-button>
+
             </template>
     </el-table-column>
 </el-table>
@@ -154,9 +158,9 @@
           this.cityList = response.data
         })
       },
-      updateStatus(id, status) {
-        hospApi.updateStatus(id, status)
-          .then(response => {
+      updateStatus(id, status) {
+        hospitalApi.updateStatus(id, status)
+          .then(response => {
             this.fetchData(this.page)
           })
       },
