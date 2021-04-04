@@ -42,4 +42,11 @@ public interface HospitalService {
      * @return
      */
     Map<String, Object> show(String id);
+
+    /**
+     * 根据医院编号获取医院名称接口
+     * @param hoscode
+     * @return
+     */
+    String getName(String hoscode);
 }
