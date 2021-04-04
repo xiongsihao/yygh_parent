@@ -27,7 +27,7 @@ public class HospitalController {
     private HospitalService hospitalService;
 
     @ApiOperation(value = "获取分页列表")
-    @GetMapping("{page}/{limit}")
+    @GetMapping("list/{page}/{limit}")
     public Result index(
             @ApiParam(name = "page", value = "当前页码", required = true)
             @PathVariable Integer page,
