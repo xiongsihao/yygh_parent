@@ -90,7 +90,7 @@ public class HospitalServiceImpl implements HospitalService {
 
     //获取list集合，遍历进行医院等级封装 完整地址封装
     private Hospital setHospitalHosType(Hospital hospital) {
-        String hostypeString = dictFeignClient.getName("Hostype", hospital.getHoscode());
+        String hostypeString = dictFeignClient.getName("Hostype", hospital.getHostype());
         //查询省市区
         String provinceString = dictFeignClient.getName(hospital.getProvinceCode());
         String cityString = dictFeignClient.getName(hospital.getCityCode());

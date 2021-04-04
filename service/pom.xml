@@ -50,10 +50,10 @@
             <optional>true</optional>
         </dependency>
         <!-- 服务调用feign -->
-     <!--   <dependency>
+        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>-->
+        </dependency>
         <!-- 服务注册 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
