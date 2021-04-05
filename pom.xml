@@ -10,6 +10,7 @@
         <module>model</module>
         <module>service</module>
         <module>service_client</module>
+        <module>service_gateway</module>
     </modules>
     <packaging>pom</packaging>
     <name>yygh_parent</name>
