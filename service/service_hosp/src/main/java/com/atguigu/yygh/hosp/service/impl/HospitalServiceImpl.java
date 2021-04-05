@@ -131,4 +131,9 @@ public class HospitalServiceImpl implements HospitalService {
         }
         return "";
     }
+
+    @Override
+    public List<Hospital> findByHosname(String hosname) {
+        return hospitalRepository.findHospitalByHosnameLike(hosname);
+    }
 }
