@@ -184,6 +184,7 @@
     },
     data() {
       return {
+        state:null,
         searchObj: {},
         page: 1,
         limit: 10,

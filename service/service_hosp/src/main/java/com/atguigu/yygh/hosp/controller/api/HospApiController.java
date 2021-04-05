@@ -1,6 +1,7 @@
 package com.atguigu.yygh.hosp.controller.api;
 
 import com.atguigu.yygh.common.result.Result;
+import com.atguigu.yygh.hosp.service.DepartmentService;
 import com.atguigu.yygh.hosp.service.HospitalService;
 import com.atguigu.yygh.model.hosp.Hospital;
 import com.atguigu.yygh.vo.hosp.HospitalQueryVo;
@@ -26,6 +27,8 @@ public class HospApiController {
 
     @Autowired
     private HospitalService hospitalService;
+    @Autowired
+    private DepartmentService departmentService;
 
     @ApiOperation(value = "查询医院列表")
     @GetMapping("findHospList/{page}/{limit}")
@@ -45,5 +48,21 @@ public class HospApiController {
             @ApiParam(name = "hosname", value = "医院名称", required = true)
             @PathVariable String hosname) {
         return Result.ok(hospitalService.findByHosname(hosname));
+    }
+
+    @ApiOperation(value = "根据医院编号获取获取科室列表")
+    @GetMapping("department/{hoscode}")
+    public Result index(
+            @ApiParam(name = "hoscode", value = "医院code", required = true)
+            @PathVariable String hoscode) {
+        return Result.ok(departmentService.findDeptTree(hoscode));
+    }
+
+    @ApiOperation(value = "根据医院编号获取科室信息")
+    @GetMapping("findHospDetail/{hoscode}")
+    public Result item(
+            @ApiParam(name = "hoscode", value = "医院code", required = true)
+            @PathVariable String hoscode) {
+        return Result.ok(hospitalService.item(hoscode));
     }
 }
