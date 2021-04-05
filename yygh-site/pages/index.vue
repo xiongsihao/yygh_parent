@@ -38,12 +38,24 @@
                   @click="hostypeSelect(item.value, index)">{{ item.name }}</span>
               </div>
             </div>
+            <hr>
+            <div class="filter-wrapper">
+        <span
+          class="label">省份：</span>
+              <div class="condition-wrapper">
+          <span class="item v-link clickable"
+                :class="provinceActiveIndex == index ? 'selected' : ''"
+                v-for="(item,index) in provinceList" :key="item.id"
+                @click="provinceSelect(item.value, index)">{{ item.name }}</span>
+              </div>
+            </div>
+            <hr>
             <div class="filter-wrapper">
         <span
           class="label">地区：</span>
               <div class="condition-wrapper">
           <span class="item v-link clickable"
-                :class="provinceActiveIndex == index ? 'selected' : ''"
+                :class="cityActiveIndex == index ? 'selected' : ''"
                 v-for="(item,index) in districtList" :key="item.id"
                 @click="districtSelect(item.value, index)">{{ item.name }}</span>
               </div>
@@ -160,9 +172,9 @@
 
   export default {
     //服务端渲染异步，显示医院列表
-    asyncData({ params, error }) {
+    asyncData({params, error}) {
       //调用
-      return hospApi.getPageList(1,10,null)
+      return hospApi.getPageList(1, 10, null)
         .then(response => {
           return {
             list: response.data.content,
@@ -178,16 +190,18 @@
 
         hosname: '', //医院名称
         hostypeList: [], //医院等级集合
+        provinceList: [], //省份集合
         districtList: [], //地区集合
 
         hostypeActiveIndex: 0,
-        provinceActiveIndex: 0
+        provinceActiveIndex: 0,
+        cityActiveIndex: 0
       }
     },
     created() {
       this.init()
     },
-    methods:{
+    methods: {
       //查询医院等级列表 和 所有地区列表
       init() {
         //查询医院等级列表
@@ -196,10 +210,23 @@
             //hostypeList清空
             this.hostypeList = []
             //向hostypeList添加全部值
-            this.hostypeList.push({"name":"全部","value":""})
+            this.hostypeList.push({"name": "全部", "value": ""})
             //把接口返回数据，添加到hostypeList
-            for(var i=0;i<response.data.length;i++) {
+            for (var i = 0; i < response.data.length; i++) {
               this.hostypeList.push(response.data[i])
+            }
+          })
+
+        //查询省份列表
+        dictApi.findByDictCode('Province')
+          .then(response => {
+            //provinceList清空
+            this.provinceList = []
+            //向hostypeList添加全部值
+            this.provinceList.push({"name": "全部", "value": ""})
+            //把接口返回数据，添加到provinceList
+            for (var i = 0; i < response.data.length; i++) {
+              this.provinceList.push(response.data[i])
             }
           })
 
@@ -207,8 +234,8 @@
         dictApi.findByDictCode('Beijing')
           .then(response => {
             this.districtList = []
-            this.districtList.push({"name":"全部","value":""})
-            for(let i in response.data) {
+            this.districtList.push({"name": "全部", "value": ""})
+            for (let i in response.data) {
               this.districtList.push(response.data[i])
             }
           })
@@ -216,9 +243,9 @@
 
       //查询医院列表
       getList() {
-        hospApi.getPageList(this.page,this.limit,this.searchObj)
+        hospApi.getPageList(this.page, this.limit, this.searchObj)
           .then(response => {
-            for(let i in response.data.content) {
+            for (let i in response.data.content) {
               this.list.push(response.data.content[i])
             }
             this.page = response.data.totalPages
@@ -226,7 +253,7 @@
       },
 
       //根据医院等级查询
-      hostypeSelect(hostype,index) {
+      hostypeSelect(hostype, index) {
         //准备数据
         this.list = []
         this.page = 1
@@ -235,12 +262,19 @@
         //调用查询医院列表方法
         this.getList()
       },
-
+      //根据省份查询医院
+      provinceSelect(districtCode, index) {
+        this.list = []
+        this.page = 1
+        this.provinceActiveIndex = index
+        this.searchObj.provinceCode = districtCode
+        this.getList();
+      },
       //根据地区查询医院
       districtSelect(districtCode, index) {
         this.list = []
         this.page = 1
-        this.provinceActiveIndex = index
+        this.cityActiveIndex = index
         this.searchObj.districtCode = districtCode
         this.getList();
       },
@@ -248,9 +282,9 @@
       //在输入框输入值，弹出下拉框，显示相关内容
       querySearchAsync(queryString, cb) {
         this.searchObj = []
-        if(queryString == '') return
+        if (queryString == '') return
         hospApi.getByHosname(queryString).then(response => {
-          for (let i = 0, len = response.data.length; i <len; i++) {
+          for (let i = 0, len = response.data.length; i < len; i++) {
             response.data[i].value = response.data[i].hosname
           }
           cb(response.data)
