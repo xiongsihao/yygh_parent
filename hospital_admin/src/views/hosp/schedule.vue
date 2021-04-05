@@ -1,6 +1,9 @@
 <template>
   <div class="app-container">
-    <div style="margin-bottom: 10px;font-size: 10px;">选择：</div>
+    <div style="margin-bottom: 10px;font-size: 10px;">
+      选择
+      ：{{ baseMap.hosname }} / {{ depname }} / {{ workDate }}
+    </div>
     <el-container style="height: 100%">
       <el-aside width="200px" style="border: 1px silver solid">
         <!-- 部门 -->
@@ -31,39 +34,40 @@
             @current-change="getPage">
           </el-pagination>
         </el-row>
-          <el-row style="margin-top: 20px;">
-                        <!-- 排班日期对应的排班医生 -->
-                            <el-table
-                                v-loading="listLoading"
-                                :data="scheduleList"
-                                border
-                                fit
-                                highlight-current-row>
-                                <el-table-column
-                                            label="序号"
-                                            width="60"
-                                            align="center">
-                                    <template slot-scope="scope">
-                                                    {{ scope.$index + 1 }}
-                                    </template>
-                        </el-table-column>
-                        <el-table-column label="职称" width="150">
-                            <template slot-scope="scope">
-                                            {{ scope.row.title }} | {{ scope.row.docname }}
-                            </template>
-                        </el-table-column>
-                        <el-table-column label="号源时间" width="80">
-                            <template slot-scope="scope">
-                                            {{ scope.row.workTime == 0 ? "上午" : "下午" }}
-                            </template>
-                        </el-table-column>
-                        <el-table-column prop="reservedNumber" label="可预约数" width="80"/>
-                        <el-table-column prop="availableNumber" label="剩余预约数" width="100"/>
-                        <el-table-column prop="amount" label="挂号费(元)" width="90"/>
-                        <el-table-column prop="skill" label="擅长技能"/>
-                    </el-table>
-                </el-row>
-            </el-main>
+
+        <el-row style="margin-top: 20px;">
+          <!-- 排班日期对应的排班医生 -->
+          <el-table
+            v-loading="listLoading"
+            :data="scheduleList"
+            border
+            fit
+            highlight-current-row>
+            <el-table-column
+              label="序号"
+              width="60"
+              align="center">
+              <template slot-scope="scope">
+                {{ scope.$index + 1 }}
+              </template>
+            </el-table-column>
+            <el-table-column label="职称" width="150">
+              <template slot-scope="scope">
+                {{ scope.row.title }} | {{ scope.row.docname }}
+              </template>
+            </el-table-column>
+            <el-table-column label="号源时间" width="80">
+              <template slot-scope="scope">
+                {{ scope.row.workTime == 0 ? "上午" : "下午" }}
+              </template>
+            </el-table-column>
+            <el-table-column prop="reservedNumber" label="可预约数" width="80"/>
+            <el-table-column prop="availableNumber" label="剩余预约数" width="100"/>
+            <el-table-column prop="amount" label="挂号费(元)" width="90"/>
+            <el-table-column prop="skill" label="擅长技能"/>
+          </el-table>
+        </el-row>
+      </el-main>
     </el-container>
   </div>
 </template>
@@ -74,7 +78,6 @@
     data() {
       return {
         data: [],
-        listLoading:false,
         defaultProps: {
           children: 'children',
           label: 'depname'
@@ -84,7 +87,7 @@
         depcode: null,
         depname: null,
         workDate: null,
-
+        listLoading:false,
         bookingScheduleList: [],
         baseMap: {},
 
@@ -92,7 +95,7 @@
         limit: 7, // 每页个数
         total: 0, // 总页码
 
-        scheduleList:[] //排班详情
+        scheduleList: [] //排班详情
       }
     },
     created() {
@@ -103,11 +106,12 @@
     methods: {
       //查询排班详情
       getDetailSchedule() {
-        hospApi.getScheduleDetail(this.hoscode,this.depcode,this.workDate)
+        hospApi.getScheduleDetail(this.hoscode, this.depcode, this.workDate)
           .then(response => {
             this.scheduleList = response.data
           })
       },
+
       fetchData() {
         hospApi.getDeptByHoscode(this.hoscode)
           .then(response => {
@@ -119,6 +123,7 @@
 
               this.getPage()
             }
+
           })
       },
       getPage(page = 1) {
@@ -142,6 +147,8 @@
 
             this.workDate = this.bookingScheduleList[0].workDate
           }
+          //调用查询排班详情
+          this.getDetailSchedule()
         })
       },
 
@@ -157,6 +164,8 @@
       selectDate(workDate, index) {
         this.workDate = workDate
         this.activeIndex = index
+        //调用查询排班详情
+        this.getDetailSchedule()
       },
 
       getCurDate() {
