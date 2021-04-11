@@ -27,7 +27,7 @@ public class UserInfoServiceImpl extends
         ServiceImpl<UserInfoMapper, UserInfo> implements UserInfoService {
 
     @Autowired
-    private RedisTemplate<String,String> redisTemplate;
+    private RedisTemplate<String, String> redisTemplate;
 
     @Override
     public Map<String, Object> loginUser(LoginVo loginVo) {
@@ -41,19 +41,33 @@ public class UserInfoServiceImpl extends
 
         //校验手机验证码
         String mobleCode = redisTemplate.opsForValue().get(phone);
-        if(!code.equals(mobleCode)) {
+        if (!code.equals(mobleCode)) {
             throw new YyghException(ResultCodeEnum.CODE_ERROR);
         }
-        //判断是否是第一次登录：根据手机号查询数据库，如果不存在相同手机号就是第一次登录
-        QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("phone", phone);
-        UserInfo userInfo = baseMapper.selectOne(queryWrapper);
-        if (null == userInfo) {//手机号为空，第一次登录，创建用户
-            userInfo = new UserInfo();
-            userInfo.setName("");
-            userInfo.setPhone(phone);
-            userInfo.setStatus(1);
-            this.save(userInfo);
+        //绑定手机号码
+        UserInfo userInfo = null;
+        if (!StringUtils.isEmpty(loginVo.getOpenid())) {
+            userInfo = this.getByOpenid(loginVo.getOpenid());
+            if (null != userInfo) {
+                userInfo.setPhone(loginVo.getPhone());
+                this.updateById(userInfo);
+            } else {
+                throw new YyghException(ResultCodeEnum.DATA_ERROR);
+            }
+        }
+        //userInfo=null 说明手机直接登录
+        if (null == userInfo) {
+            //判断是否是第一次登录：根据手机号查询数据库，如果不存在相同手机号就是第一次登录
+            QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("phone", phone);
+            userInfo = baseMapper.selectOne(queryWrapper);
+            if (null == userInfo) {//手机号为空，第一次登录，创建用户
+                userInfo = new UserInfo();
+                userInfo.setName("");
+                userInfo.setPhone(phone);
+                userInfo.setStatus(1);
+                this.save(userInfo);
+            }
         }
         //校验是否被禁用
         if (userInfo.getStatus() == 0) {
@@ -76,5 +90,10 @@ public class UserInfoServiceImpl extends
         String token = JwtHelper.createToken(userInfo.getId(), name);
         map.put("token", token);
         return map;
+    }
+
+    @Override
+    public UserInfo getByOpenid(String openid) {
+        return baseMapper.selectOne(new QueryWrapper<UserInfo>().eq("openid", openid));
     }
 }

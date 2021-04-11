@@ -14,4 +14,11 @@ import java.util.Map;
 public interface UserInfoService extends IService<UserInfo> {
 
     Map<String, Object> loginUser(LoginVo loginVo);
+
+    /**
+     * 根据微信openid获取用户信息
+     * @param openid
+     * @return
+     */
+    UserInfo getByOpenid(String openid);
 }
