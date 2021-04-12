@@ -101,6 +101,7 @@
 <script>
   import '~/assets/css/hospital_personal.css'
   import '~/assets/css/hospital.css'
+  import userInfoApi from '@/api/userInfo'
 
   import hospitalApi from '@/api/hosp'
 
@@ -140,6 +141,22 @@
       },
 
       schedule(depcode) {
+        // 登录判断
+        let token = cookie.get('token')
+        if (!token) {
+          loginEvent.$emit('loginDialogEvent')
+          return
+        }
+
+        //判断认证
+        userInfoApi.getUserInfo().then(response => {
+          let authStatus = response.data.authStatus
+          // 状态为2认证通过
+          if (!authStatus || authStatus != 2) {
+            window.location.href = '/user'
+            return
+          }
+        })
         window.location.href = '/hospital/schedule?hoscode=' + this.hoscode + "&depcode=" + depcode
       }
     }
