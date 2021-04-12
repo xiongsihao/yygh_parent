@@ -16,6 +16,7 @@
         <module>service_hosp</module>
         <module>service_cmn</module>
         <module>service_msm</module>
+        <module>service_oss</module>
     </modules>
     <packaging>pom</packaging>
     <dependencies>
