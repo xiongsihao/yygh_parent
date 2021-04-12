@@ -43,12 +43,12 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
 
         Long userId = this.getUserId(request);
         //api接口，异步请求，校验用户必须登录
-        if(antPathMatcher.match("/api/**/auth/**", path)) {
-            if(StringUtils.isEmpty(userId)) {
-                ServerHttpResponse response = exchange.getResponse();
-                return out(response, ResultCodeEnum.LOGIN_AUTH);
-            }
-        }
+//        if(antPathMatcher.match("/api/**/auth/**", path)) {
+//            if(StringUtils.isEmpty(userId)) {
+//                ServerHttpResponse response = exchange.getResponse();
+//                return out(response, ResultCodeEnum.LOGIN_AUTH);
+//            }
+//        }
         return chain.filter(exchange);
     }
 
