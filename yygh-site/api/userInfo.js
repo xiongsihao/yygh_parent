@@ -9,5 +9,19 @@ export default {
       method: `post`,
       data: userInfo
     })
+  },
+  getUserInfo() {
+    return request({
+      url: `${api_name}/auth/getUserInfo`,
+      method: `get`
+    })
+  },
+
+  saveUserAuah(userAuah) {
+    return request({
+      url: `${api_name}/auth/userAuah`,
+      method: 'post',
+      data: userAuah
+    })
   }
 }
