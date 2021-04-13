@@ -55,4 +55,11 @@ public interface ScheduleService {
      * @return
      */
     Map<String, Object> getBookingScheduleRule(int page, int limit, String hoscode, String depcode);
+
+    /**
+     * 根据id获取排班
+     * @param id
+     * @return
+     */
+    Schedule getById(String id);
 }
