@@ -4,8 +4,10 @@ import com.atguigu.yygh.common.exception.YyghException;
 import com.atguigu.yygh.common.result.ResultCodeEnum;
 import com.atguigu.yygh.common.util.JwtHelper;
 import com.atguigu.yygh.enums.AuthStatusEnum;
+import com.atguigu.yygh.model.user.Patient;
 import com.atguigu.yygh.model.user.UserInfo;
 import com.atguigu.yygh.user.mapper.UserInfoMapper;
+import com.atguigu.yygh.user.service.PatientService;
 import com.atguigu.yygh.user.service.UserInfoService;
 import com.atguigu.yygh.vo.user.LoginVo;
 import com.atguigu.yygh.vo.user.UserAuthVo;
@@ -21,6 +23,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -172,5 +175,20 @@ public class UserInfoServiceImpl extends
             userInfo.setStatus(status);
             this.updateById(userInfo);
         }
+    }
+
+    @Autowired
+    private PatientService patientService;
+    //用户详情
+    @Override
+    public Map<String, Object> show(Long userId) {
+        Map<String,Object> map = new HashMap<>();
+        //根据userid查询用户信息
+        UserInfo userInfo = this.packageUserInfo(baseMapper.selectById(userId));
+        map.put("userInfo",userInfo);
+        //根据userid查询就诊人信息
+        List<Patient> patientList = patientService.findAllUserId(userId);
+        map.put("patientList",patientList);
+        return map;
     }
 }
