@@ -203,13 +203,15 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     //封装排班详情其他值 医院名称、科室名称、日期对应星期
-    private void packageSchedule(Schedule schedule) {
+    private Schedule packageSchedule(Schedule schedule) {
         //设置医院名称
         schedule.getParam().put("hosname", hospitalService.getName(schedule.getHoscode()));
         //设置科室名称
         schedule.getParam().put("depname", departmentService.getDepName(schedule.getHoscode(), schedule.getDepcode()));
         //设置日期对应星期
         schedule.getParam().put("dayOfWeek", this.getDayOfWeek(new DateTime(schedule.getWorkDate())));
+
+        return schedule;
     }
 
     @Override
@@ -343,5 +345,12 @@ public class ScheduleServiceImpl implements ScheduleService {
         String dateTimeString = new DateTime(date).toString("yyyy-MM-dd") + " " + timeString;
         DateTime dateTime = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm").parseDateTime(dateTimeString);
         return dateTime;
+    }
+
+    @Override
+    public Schedule getById(String id) {
+        Schedule schedule = scheduleRepository.findById(id).get();
+
+        return this.packageSchedule(schedule);
     }
 }
