@@ -164,4 +164,13 @@ public class UserInfoServiceImpl extends
         userInfo.getParam().put("statusString", statusString);
         return userInfo;
     }
+
+    @Override
+    public void lock(Long userId, Integer status) {
+        if(status.intValue() == 0 || status.intValue() == 1) {
+            UserInfo userInfo = this.getById(userId);
+            userInfo.setStatus(status);
+            this.updateById(userInfo);
+        }
+    }
 }
