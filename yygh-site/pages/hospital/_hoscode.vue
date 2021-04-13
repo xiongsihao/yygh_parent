@@ -102,7 +102,7 @@
   import '~/assets/css/hospital_personal.css'
   import '~/assets/css/hospital.css'
   import userInfoApi from '@/api/userInfo'
-
+  import cookie from 'js-cookie'
   import hospitalApi from '@/api/hosp'
 
   export default {

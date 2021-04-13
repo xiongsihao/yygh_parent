@@ -16,14 +16,16 @@ public interface ScheduleService {
 
     /**
      * 上传排班信息
+     *
      * @param paramMap
      */
     void save(Map<String, Object> paramMap);
 
     /**
      * 分页查询
-     * @param page 当前页码
-     * @param limit 每页记录数
+     *
+     * @param page            当前页码
+     * @param limit           每页记录数
      * @param scheduleQueryVo 查询条件
      * @return
      */
@@ -31,6 +33,7 @@ public interface ScheduleService {
 
     /**
      * 删除科室
+     *
      * @param hoscode
      * @param hosScheduleId
      */
@@ -41,4 +44,15 @@ public interface ScheduleService {
 
     //根据医院编号 、科室编号和工作日期，查询排班详细信息
     List<Schedule> getDetailSchedule(String hoscode, String depcode, String workDate);
+
+    /**
+     * 获取排班可预约日期数据
+     *
+     * @param page
+     * @param limit
+     * @param hoscode
+     * @param depcode
+     * @return
+     */
+    Map<String, Object> getBookingScheduleRule(int page, int limit, String hoscode, String depcode);
 }

@@ -35,5 +35,18 @@ export default {
       url: `${api_name}/department/${hoscode}`,
       method: 'get'
     })
+  },
+  getBookingScheduleRule(page, limit, hoscode, depcode) {
+    return request({
+      url: `${api_name}/auth/getBookingScheduleRule/${page}/${limit}/${hoscode}/${depcode}`,
+      method: 'get'
+    })
+  },
+
+  findScheduleList(hoscode, depcode, workDate) {
+    return request({
+      url: `${api_name}/auth/findScheduleList/${hoscode}/${depcode}/${workDate}`,
+      method: 'get'
+    })
   }
 }
