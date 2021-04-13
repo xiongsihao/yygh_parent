@@ -13,6 +13,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <modules>
         <module>service_cmn_client</module>
+        <module>service_user_client</module>
     </modules>
     <packaging>pom</packaging>
 
