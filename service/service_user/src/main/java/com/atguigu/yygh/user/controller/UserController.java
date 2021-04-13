@@ -53,4 +53,11 @@ public class UserController {
         Map<String,Object> map = userInfoService.show(userId);
         return Result.ok(map);
     }
+
+    //认证审批
+    @GetMapping("approval/{userId}/{authStatus}")
+    public Result approval(@PathVariable Long userId,@PathVariable Integer authStatus) {
+        userInfoService.approval(userId,authStatus);
+        return Result.ok();
+    }
 }

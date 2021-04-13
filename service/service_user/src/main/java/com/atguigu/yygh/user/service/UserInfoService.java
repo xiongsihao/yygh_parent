@@ -45,4 +45,11 @@ public interface UserInfoService extends IService<UserInfo> {
      * @return
      */
     Map<String, Object> show(Long userId);
+
+    /**
+     * 认证审批
+     * @param userId
+     * @param authStatus 2：通过 -1：不通过
+     */
+    void approval(Long userId, Integer authStatus);
 }

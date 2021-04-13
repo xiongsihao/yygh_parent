@@ -191,4 +191,14 @@ public class UserInfoServiceImpl extends
         map.put("patientList",patientList);
         return map;
     }
+
+    //认证审批  2通过  -1不通过
+    @Override
+    public void approval(Long userId, Integer authStatus) {
+        if(authStatus.intValue()==2 || authStatus.intValue()==-1) {
+            UserInfo userInfo = baseMapper.selectById(userId);
+            userInfo.setAuthStatus(authStatus);
+            baseMapper.updateById(userInfo);
+        }
+    }
 }
