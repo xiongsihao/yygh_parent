@@ -64,7 +64,8 @@
           {{ scope.row.isMarry == 1 ? '时' : '否' }}
         </template>
       </el-table-column>
-      <el-table-column prop="fullAddress" label="地址"/>
+      <!--<el-table-column prop="fullAddress" label="地址"/>-->
+      <el-table-column prop="address" label="地址"/>
       <el-table-column prop="createTime" label="注册时间"/>
     </el-table>
     <br>
@@ -82,7 +83,8 @@
       return {
         id: this.$route.params.id,
         userInfo: {}, // 会员信息
-        patientList: [] // 就诊人列表
+        patientList: [], // 就诊人列表
+        listLoading:false
       }
     },
     // 当页面加载时获取数据
@@ -92,9 +94,11 @@
     methods: {
       // 根据id查询会员记录
       fetchDataById() {
+        this.listLoading=true;
         userInfoApi.show(this.id).then(response => {
           this.userInfo = response.data.userInfo
           this.patientList = response.data.patientList
+          this.listLoading=false;
         })
       },
       back() {
