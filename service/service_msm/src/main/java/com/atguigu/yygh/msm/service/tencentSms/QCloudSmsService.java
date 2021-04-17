@@ -1,7 +1,9 @@
 package com.atguigu.yygh.msm.service.tencentSms;
 
+import com.atguigu.yygh.vo.msm.MsmVo;
 import com.github.qcloudsms.SmsSingleSenderResult;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -51,8 +53,17 @@ public class QCloudSmsService implements SmsService {
     }
 
     @Override
-    public boolean sendOnConsole(String mobile, String code, int effectiveTime) {
+    public boolean sendOnConsole(String mobile, String code) {
         log.info("给手机号" + mobile + "发送验证码：" + code);
         return true;
+    }
+
+    @Override
+    public boolean send(MsmVo msmVo) {
+        if(!StringUtils.isEmpty(msmVo.getPhone())) {
+            String code = (String)msmVo.getParam().get("code");
+            return this.sendOnConsole(msmVo.getPhone(),code);
+        }
+        return false;
     }
 }

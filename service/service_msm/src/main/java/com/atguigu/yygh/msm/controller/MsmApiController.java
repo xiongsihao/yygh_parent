@@ -52,7 +52,7 @@ public class MsmApiController {
         //腾讯云发送验证码
         //boolean isSend = smsService.send(phone, code, 5);
         //不实际发送验证码，在控制台输出验证码
-        boolean isSend = smsService.sendOnConsole(phone, code, 5);
+        boolean isSend = smsService.sendOnConsole(phone, code);
         //生成验证码放到redis里面，设置有效时间
         if(isSend) {
             redisTemplate.opsForValue().set(phone,code,5, TimeUnit.MINUTES);

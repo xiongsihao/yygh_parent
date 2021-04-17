@@ -1,5 +1,7 @@
 package com.atguigu.yygh.msm.service.tencentSms;
 
+import com.atguigu.yygh.vo.msm.MsmVo;
+
 /**
  * @author : xsh
  * @create : 2021-04-11 - 19:56
@@ -29,8 +31,10 @@ public interface SmsService {
      * 在控制台输出验证码，模拟发送短信
      * @param mobile
      * @param code
-     * @param effectiveTime
      * @return
      */
-    boolean sendOnConsole(String mobile, String code, int effectiveTime);
+    boolean sendOnConsole(String mobile, String code);
+
+    //MQ使用发送短信
+    boolean send(MsmVo msmVo);
 }
