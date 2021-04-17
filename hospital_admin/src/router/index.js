@@ -130,6 +130,22 @@ export const constantRouterMap = [
     ]
   },
   {
+    path: '/order',
+    component: Layout,
+    redirect: '/order/orderInfo/list',
+    name: 'BasesInfo',
+    meta: { title: '订单管理', icon: 'table' },
+    alwaysShow: true,
+    children: [
+      {
+        path: 'orderInfo/list',
+        name: '订单列表',
+        component: () =>import('@/views/order/orderInfo/list'),
+        meta: { title: '订单列表' }
+      }
+    ]
+  },
+  {
     path: '/example',
     component: Layout,
     redirect: '/example/table',
