@@ -53,7 +53,7 @@ public class QCloudSmsService implements SmsService {
     }
 
     @Override
-    public boolean sendOnConsole(String mobile, String code) {
+    public boolean sendOnConsole(String mobile, Object code) {
         log.info("给手机号" + mobile + "发送验证码：" + code);
         return true;
     }
@@ -62,7 +62,7 @@ public class QCloudSmsService implements SmsService {
     public boolean send(MsmVo msmVo) {
         if(!StringUtils.isEmpty(msmVo.getPhone())) {
             String code = (String)msmVo.getParam().get("code");
-            return this.sendOnConsole(msmVo.getPhone(),code);
+            return this.sendOnConsole(msmVo.getPhone(),msmVo.getParam());
         }
         return false;
     }

@@ -33,7 +33,7 @@ public interface SmsService {
      * @param code
      * @return
      */
-    boolean sendOnConsole(String mobile, String code);
+    boolean sendOnConsole(String mobile, Object code);
 
     //MQ使用发送短信
     boolean send(MsmVo msmVo);
