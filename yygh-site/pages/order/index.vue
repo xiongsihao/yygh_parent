@@ -115,8 +115,8 @@
 <script>
   import '~/assets/css/hospital_personal.css'
   import '~/assets/css/hospital.css'
-  import orderInfoApi from '@/api/order/orderInfo'
-  import patientApi from '@/api/user/patient'
+  import orderInfoApi from '@/api/orderInfo'
+  import patientApi from '@/api/patient'
 
   export default {
     data() {
