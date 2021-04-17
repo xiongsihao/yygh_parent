@@ -161,4 +161,18 @@ public class OrderServiceImpl extends
         }
         return orderInfo.getId();
     }
+
+    //根据订单id查询订单详情
+    @Override
+    public OrderInfo getOrderInfo(String orderId) {
+        OrderInfo orderInfo = baseMapper.selectById(orderId);
+
+        return this.packOrderInfo(orderInfo);
+    }
+
+    //将订单状态数字转为中文
+    private OrderInfo packOrderInfo(OrderInfo orderInfo){
+        orderInfo.getParam().put("orderStatusString",OrderStatusEnum.getStatusNameByStatus(orderInfo.getOrderStatus()));
+        return orderInfo;
+    }
 }
