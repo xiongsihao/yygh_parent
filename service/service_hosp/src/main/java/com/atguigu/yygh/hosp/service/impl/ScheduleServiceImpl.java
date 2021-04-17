@@ -408,4 +408,11 @@ public class ScheduleServiceImpl extends
         scheduleOrderVo.setStartTime(startTime.toDate());
         return scheduleOrderVo;
     }
+
+    @Override
+    public void update(Schedule schedule) {
+        schedule.setUpdateTime(new Date());
+        //主键一致就是更新
+        scheduleRepository.save(schedule);
+    }
 }
