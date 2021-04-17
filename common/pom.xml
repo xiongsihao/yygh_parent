@@ -12,6 +12,7 @@
     <modules>
         <module>common_util</module>
         <module>service_util</module>
+        <module>rabbitMQ_util</module>
     </modules>
 
     <artifactId>common</artifactId>
