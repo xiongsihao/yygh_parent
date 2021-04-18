@@ -48,8 +48,9 @@ public class WeixinController {
             return Result.fail().message("支付出错");
         }
         if ("SUCCESS".equals(resultMap.get("trade_state"))) {//如果成功
-            //TODO 更改订单状态，处理支付结果
+            //更改订单状态，处理支付结果
             String out_trade_no = resultMap.get("out_trade_no");
+            paymentService.paySuccess(out_trade_no, PaymentTypeEnum.WEIXIN.getStatus(), resultMap);
             return Result.ok().message("支付成功");
         }
         return Result.ok().message("支付中");

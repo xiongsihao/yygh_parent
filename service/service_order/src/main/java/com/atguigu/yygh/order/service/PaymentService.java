@@ -4,6 +4,8 @@ import com.atguigu.yygh.model.order.OrderInfo;
 import com.atguigu.yygh.model.order.PaymentInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.Map;
+
 /**
  * @author : xsh
  * @create : 2021-04-18 - 18:34
@@ -17,4 +19,9 @@ public interface PaymentService extends IService<PaymentInfo> {
      */
     void savePaymentInfo(OrderInfo order, Integer paymentType);
 
+
+    /**
+     * 支付成功
+     */
+    void paySuccess(String outTradeNo, Integer paymentType, Map<String, String> paramMap);
 }
