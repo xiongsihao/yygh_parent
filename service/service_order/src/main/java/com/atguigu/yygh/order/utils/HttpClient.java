@@ -146,8 +146,8 @@ public class HttpClient {
         try {
             if (isHttps) {
                 if (isCert) {
-                    //TODO ConstantPropertiesUtils.CERT 支付证书
-                    FileInputStream inputStream = new FileInputStream(new File(""));
+                    //ConstantPropertiesUtils.CERT 支付证书
+                    FileInputStream inputStream = new FileInputStream(new File(ConstantPropertiesUtils.CERT));
                     KeyStore keystore = KeyStore.getInstance("PKCS12");
                     char[] partnerId2charArray = certPassword.toCharArray();
                     keystore.load(inputStream, partnerId2charArray);
