@@ -171,6 +171,22 @@
         if (this.timer) {
           clearInterval(this.timer);
         }
+      },
+      //取消预约
+      cancelOrder() {
+        this.$confirm('确定取消预约吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => { // promise
+          // 点击确定，远程调用
+          return orderInfoApi.cancelOrder(this.orderId)
+        }).then((response) => {
+          this.$message.success('取消成功')
+          this.init()
+        }).catch(() => {
+          this.$message.info('已取消取消预约')
+        })
       }
     }
   }
