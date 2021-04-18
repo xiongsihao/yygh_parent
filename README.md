@@ -516,4 +516,30 @@ ${basePath}/order/updateCancelStatus
 | message    | string   | 100      | 是       | 结果描述                                                     |
 | data       | string   | 5000     | 是       | 业务数据                                                     |
 
- 
+ # 运行项目
+
+运行环境：redis, nacos,rabbitMQ,Mysql,Mongodb
+
+数据初始化：sql目录下有mysql和mongodb数据初始化的脚本,其中mongodb的脚本需要运行hospital-manage项目后浏览器访问http://localhost:9998/，在里面执行导入操作
+
+
+
+服务：
+
+前端服务：npm install， npm run dev 
+
+yygh-site(前台用户预约端)  http://localhost:3000/
+
+hospital_admin(后台医院管理端) http://localhost:9528/
+
+后端接口服务：
+
+service目录下：
+
+service_cmn 字典服务，service_hosp医院相关接口服务,service_msm短信服务，service_order订单服务，service_oss文件存储服务，service_statistics数据统计服务，service_task定时任务服务，service_user用户中心服务
+
+service_gateway网关服务
+
+hospital-manage医院平台服务
+
+service_client feign代理服务
