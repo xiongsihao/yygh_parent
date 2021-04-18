@@ -29,4 +29,9 @@ public interface OrderService extends IService<OrderInfo> {
      * @param orderId
      */
     Boolean cancelOrder(Long orderId);
+
+    /**
+     * 定时任务 ，每天早上八点提醒患者 就诊提醒
+     */
+    void patientTips();
 }

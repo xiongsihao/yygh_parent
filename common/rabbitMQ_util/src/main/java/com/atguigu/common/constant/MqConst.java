@@ -21,4 +21,9 @@ public class MqConst {
     public static final String ROUTING_MSM_ITEM = "msm.item";
     //队列
     public static final String QUEUE_MSM_ITEM  = "queue.msm.item";
+
+    //定时任务常量
+    public static final String EXCHANGE_DIRECT_TASK = "exchange.direct.task";
+    public static final String ROUTING_TASK_8 = "task.8";
+    public static final String QUEUE_TASK_8 = "queue.task.8";
 }

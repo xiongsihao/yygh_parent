@@ -185,7 +185,7 @@
           this.$message.success('取消成功')
           this.init()
         }).catch(() => {
-          this.$message.info('已取消取消预约')
+          this.$message.info('取消预约失败')
         })
       }
     }

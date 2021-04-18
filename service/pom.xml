@@ -18,6 +18,7 @@
         <module>service_msm</module>
         <module>service_oss</module>
         <module>service_order</module>
+        <module>service_task</module>
     </modules>
     <packaging>pom</packaging>
     <dependencies>
