@@ -15,4 +15,11 @@ export default {
       method: 'get'
     })
   },
+  //调用微信接口查询支付订单状态
+  queryPayStatus(orderId) {
+    return request({
+      url: `/api/order/weixin/queryPayStatus/${orderId}`,
+      method: 'get'
+    })
+  },
 }

@@ -151,6 +151,7 @@
             this.dialogPayVisible = false
             this.$message.error("支付错误")
           } else {
+            //支付成功后，每隔三秒调用一次微信查询支付订单状态接口
             this.timer = setInterval(() => {
               this.queryPayStatus(this.orderId)
             }, 3000);
