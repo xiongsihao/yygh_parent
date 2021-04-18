@@ -14,7 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)//取消数据源自动配置
 @EnableDiscoveryClient
-@EnableFeignClients
+@EnableFeignClients(basePackages = {"com.atguigu"})
 @ComponentScan(basePackages = {"com.atguigu"})
 public class ServiceStatisticsApplication {
 
