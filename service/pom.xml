@@ -19,6 +19,7 @@
         <module>service_oss</module>
         <module>service_order</module>
         <module>service_task</module>
+        <module>service_statistics</module>
     </modules>
     <packaging>pom</packaging>
     <dependencies>

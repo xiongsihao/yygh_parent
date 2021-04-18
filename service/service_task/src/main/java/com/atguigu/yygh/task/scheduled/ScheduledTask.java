@@ -22,8 +22,8 @@ public class ScheduledTask {
     /**
      * 每天8点执行 提醒预约的患者就诊
      */
-    //@Scheduled(cron = "0 0 1 * * ?")
-    @Scheduled(cron = "0/30 * * * * ?")
+    @Scheduled(cron = "0 0 8 * * ?")
+    //@Scheduled(cron = "0/30 * * * * ?")
     public void task1() {
         System.out.println("提醒预约患者就诊短信发送任务执行..");
         rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_TASK, MqConst.ROUTING_TASK_8, "");
